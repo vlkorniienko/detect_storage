@@ -21,6 +21,7 @@ func DetectRemovableStorage() ([]string, error) {
 	}
 	for _, file := range fileInfo {
 		storagePath := path.Join(pathToSrorageDir, file.Name())
+		storagePath += "/"
 		drives = append(drives, storagePath)
 	}
 	return drives, nil
