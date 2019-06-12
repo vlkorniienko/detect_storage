@@ -18,7 +18,7 @@ func DetectRemovableStorage() ([]string, error) {
 		return nil, err
 	} else {
 		for i := 'A'; i <= 'Z'; i++ {
-			if bitMap&1 == 1 {
+			if bitMap & 1 == 1 {
 				droot := string(i) + ":\\"
 				tp, _, _ := pGetDriveTypeA.Call(uintptr(unsafe.Pointer(&[]byte(droot)[0])))
 				if tp == DRIVE_REMOVABLE {
