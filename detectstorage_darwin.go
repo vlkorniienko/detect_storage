@@ -16,6 +16,7 @@ func DetectRemovableStorage() ([]string, error) {
 	for _, file := range fileInfo {
 		if file.Name() != "Macintosh HD" {
 			storagePath := path.Join("/Volumes", file.Name())
+			storagePath += "/"
 			drives = append(drives, storagePath)
 		}
 	}
