@@ -2,29 +2,28 @@ package detect_storage
 
 import (
 	"os/user"
-	"os/exec"
+	"io/ioutil"
 	"strings"
 )
 
 func DetectRemovableStorage() ([]string, error) {
 	var drives []string
+	var directories []string
 
 	user, err := user.Current()
 	if err != nil {
 		return nil, err
 	}
-	lsExecPath := "ls /media/" + strings.ToLower(user.Name)
-	lsMediadir := exec.Command("sh", "-c", lsExecPath)
-	stdoutMediaDir, err := lsMediadir.CombinedOutput()
+	pathToSrorageDir := "/media/" + strings.ToLower(user.Name)
+	fileInfo, err := ioutil.ReadDir(pathToSrorageDir)
 	if err != nil {
 		return nil, err
 	}
-	mediaDirArray := strings.Split(string(stdoutMediaDir), "\n")
-	for i := range mediaDirArray {
-		if mediaDirArray[i] != "" {
-			storageDirpath := "/media/" + strings.ToLower(user.Name) + "/" + mediaDirArray[i]
-			drives = append(drives, storageDirpath)
-		}
+	for _, file := range fileInfo {
+		directories = append(directories, file.Name())
 	}
+	for i := range directories {
+			drives = append(drives, "/media/" + strings.ToLower(user.Name) + "/" + directories[i])
+		}
 	return drives, nil
 }

@@ -1,25 +1,25 @@
 package detect_storage
 
 import (
-	"os/exec"
-	"strings"
+	"io/ioutil"
 )
 
 func DetectRemovableStorage() ([]string, error) {
 	var drives []string
+	var directories []string
 
-	cmd := exec.Command("sh", "-c", "ls /Volumes")
-	stdoutVolumeDir, err := cmd.CombinedOutput()
+	const pathToStoragesDir = "/Volumes"
+	fileInfo, err := ioutil.ReadDir(pathToStoragesDir)
 	if err != nil {
 		return nil, err
 	}
-	volumeDirArray := strings.Split(string(stdoutVolumeDir), "\n")
-	for i := range volumeDirArray {
-		if volumeDirArray[i] != "Macintosh HD" && volumeDirArray[i] != "" {
-			storagePath := "/Volumes/" + volumeDirArray[i]
-			drives = append(drives, storagePath)
+	for _, file := range fileInfo {
+		directories = append(directories, file.Name())
+	}
+	for i := range directories {
+		if directories[i] != "Macintosh HD" {
+			drives = append(drives, "/Volumes/" + directories[i])
 		}
 	}
 	return drives, nil
 }
-

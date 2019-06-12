@@ -5,7 +5,6 @@ import "C"
 import (
 	"syscall"
 	"unsafe"
-
 	"golang.org/x/sys/windows"
 )
 
