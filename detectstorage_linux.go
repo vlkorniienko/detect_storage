@@ -14,7 +14,7 @@ func DetectRemovableStorage() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	pathToSrorageDir := path.Join("/media/", strings.ToLower(user.Name))
+	pathToSrorageDir := path.Join("/media/", strings.ToLower(user.Username))
 	fileInfo, err := ioutil.ReadDir(pathToSrorageDir)
 	if err != nil {
 		return nil, err
